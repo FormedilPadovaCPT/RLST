@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Richiesta affidamento RLST – Formedil Padova</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange: #E7500F;
+      --gray:   #565C66;
+      --green:  #95C22F;
+      --bg:     #f4f4f2;
+      --white:  #ffffff;
+      --border: #d4d2ca;
+      --text:   #2c2c2a;
+      --muted:  #5f5e5a;
+      --radius: 8px;
+      --shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 0 0 60px;
+    }
+
+    /* ── BANNER ── */
+    .banner { width: 100%; max-height: 200px; overflow: hidden; display: block; }
+    .banner img { width: 100%; height: 200px; object-fit: cover; object-position: center 30%; display: block; }
+
+    /* ── CONTENITORE ── */
+    .container { max-width: 820px; margin: 0 auto; padding: 0 16px; }
+
+    /* ── CARD FORM ── */
+    .card {
+      background: var(--white);
+      border-radius: 0 0 var(--radius) var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px 32px 36px;
+    }
+
+    .form-title { border-bottom: 3px solid var(--orange); padding-bottom: 14px; margin-bottom: 20px; }
+    .form-title h1 { font-size: 18px; font-weight: 600; color: var(--text); }
+    .form-title p  { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
+
+    /* ── INFO BOX ── */
+    .info-box {
+      border-left: 3px solid var(--orange);
+      background: #fdf3ee;
+      border-radius: 0 6px 6px 0;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+    .info-box strong { color: var(--text); }
+
+    /* ── PROGRESS ── */
+    .prog-wrap { margin-bottom: 24px; }
+    .prog-label { font-size: 11.5px; color: var(--muted); margin-bottom: 5px; }
+    .prog-bar { height: 5px; background: #e0dfd8; border-radius: 3px; }
+    .prog-fill { height: 100%; background: var(--orange); border-radius: 3px; width: 0%; transition: width .35s ease; }
+
+    /* ── SEZIONE ── */
+    .section-title {
+      font-size: 10.5px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .09em;
+      color: var(--orange);
+      border-bottom: 1px solid #e8e6e0;
+      padding-bottom: 6px;
+      margin: 28px 0 14px;
+    }
+
+    /* ── GRIGLIA ── */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+    .col-full { grid-column: 1 / -1; }
+
+    /* ── FIELD ── */
+    .field { display: flex; flex-direction: column; gap: 5px; }
+    label { font-size: 12px; font-weight: 500; color: var(--muted); }
+    label .req { color: var(--orange); margin-left: 2px; }
+
+    input[type=text], input[type=email], input[type=tel],
+    input[type=date], select, textarea {
+      font-family: 'Barlow', sans-serif;
+      font-size: 14px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 11px;
+      background: #fff;
+      color: var(--text);
+      width: 100%;
+      transition: border-color .15s, box-shadow .15s;
+      -webkit-appearance: none;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(231,80,15,.12);
+    }
+    input.err, select.err, textarea.err { border-color: #e24b4a; }
+    textarea { resize: vertical; min-height: 80px; }
+    select { cursor: pointer; }
+
+    /* ── SEZIONE VERBALE ── */
+    .verbale-box {
+      background: #f9f8f5;
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-top: 4px;
+    }
+
+    /* ── FILE UPLOAD ── */
+    .file-area {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 20px 16px;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      transition: border-color .2s;
+      background: #fff;
+    }
+    .file-area:hover { border-color: var(--orange); }
+    .file-area input[type=file] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer;
+      width: 100%; height: 100%; border: none; padding: 0;
+    }
+    .file-area .fi-icon { font-size: 28px; display: block; margin-bottom: 8px; }
+    .file-area .fi-text { font-size: 13px; color: var(--muted); }
+    .file-area .fi-text strong { color: var(--orange); }
+    .file-area .fi-sub { font-size: 11px; color: #888; margin-top: 4px; }
+    .file-name { font-size: 12.5px; font-weight: 500; margin-top: 8px; display: none; }
+    .file-name.ok  { color: #3b6d11; }
+    .file-name.err-msg { color: #e24b4a; }
+
+    /* ── PRIVACY ── */
+    .privacy-box {
+      margin-top: 24px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      display: flex; gap: 12px; align-items: flex-start;
+      background: #fafaf8;
+    }
+    .privacy-box input[type=checkbox] {
+      margin-top: 3px; flex-shrink: 0;
+      accent-color: var(--orange);
+      width: 16px; height: 16px; cursor: pointer;
+    }
+    .privacy-box p { font-size: 12px; color: var(--muted); line-height: 1.7; }
+    .privacy-box a { color: var(--orange); text-decoration: none; }
+    .privacy-box a:hover { text-decoration: underline; }
+
+    /* ── BOTTONI ── */
+    .btn-row { display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; }
+    .btn-reset {
+      font-family: 'Barlow', sans-serif; font-size: 14px; font-weight: 500;
+      padding: 10px 20px; border-radius: 6px; cursor: pointer;
+      border: 1px solid var(--border); background: transparent; color: var(--muted);
+      transition: background .15s;
+    }
+    .btn-reset:hover { background: #f0efe9; }
+    .btn-send {
+      font-family: 'Barlow', sans-serif; font-size: 14px; font-weight: 600;
+      padding: 10px 28px; border-radius: 6px; cursor: pointer;
+      background: var(--orange); color: #fff; border: none;
+      transition: opacity .15s, transform .1s;
+    }
+    .btn-send:hover:not(:disabled) { opacity: .88; }
+    .btn-send:active:not(:disabled) { transform: scale(.98); }
+    .btn-send:disabled { opacity: .4; cursor: default; }
+
+    /* ── SPINNER ── */
+    .spinner {
+      display: inline-block; width: 14px; height: 14px;
+      border: 2px solid rgba(255,255,255,.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      vertical-align: middle; margin-right: 6px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── BANNER SUCCESSO ── */
+    .success-banner {
+      display: none;
+      background: #eaf3de; border: 1px solid var(--green);
+      border-radius: var(--radius); padding: 20px;
+      text-align: center; margin-top: 24px; color: #3b6d11;
+    }
+    .success-banner h2 { font-size: 17px; margin-bottom: 6px; }
+    .success-banner p  { font-size: 13px; line-height: 1.6; }
+
+    /* ── BANNER ERRORE ── */
+    .error-banner {
+      display: none;
+      background: #fcebeb; border: 1px solid #e24b4a;
+      border-radius: var(--radius); padding: 14px 16px;
+      margin-top: 16px; color: #a32d2d; font-size: 13px;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      margin-top: 24px; text-align: center;
+      font-size: 11.5px; color: #aaa; line-height: 1.7;
+    }
+    .footer a { color: var(--orange); text-decoration: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .card { padding: 20px 16px 28px; }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .col-full { grid-column: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- BANNER -->
+  <div class="banner">
+    <img src="RLST.png" alt="Formedil Padova – Scuola Costruzioni Giuseppe Jappelli – Servizio RLST">
+  </div>
+
+  <!-- CARD FORM -->
+  <div class="card">
+
+    <div class="form-title">
+      <h1>Richiesta di affidamento al servizio RLST</h1>
+      <p>Rappresentante dei Lavoratori per la Sicurezza Territoriale &nbsp;·&nbsp; Formedil Padova – Area Sicurezza e Salute</p>
+    </div>
+
+    <div class="info-box">
+      Compilando e inviando questo modulo chiederete di essere affidati al servizio di <strong>RLST</strong>
+      individuato nell'ambito territoriale e/o di comparto.<br>
+      Il servizio è <strong>completamente gratuito</strong> per le imprese iscritte alla Cassa Edile di
+      Mutualità e Assistenza Interprovinciale del Veneto – <strong>CEIV</strong> – in regola con i versamenti.
+    </div>
+
+    <div class="prog-wrap">
+      <div class="prog-label" id="progLabel">Compilazione: 0%</div>
+      <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+    </div>
+
+    <form id="rlstForm" novalidate>
+
+      <!-- ── 1. INFORMAZIONI CRONOLOGICHE ── -->
+      <div class="section-title">Informazioni cronologiche</div>
+      <div class="grid-2">
+        <div class="field">
+          <label for="data_compilazione">Data compilazione <span class="req">*</span></label>
+          <input type="date" id="data_compilazione" name="data_compilazione" required>
+        </div>
+      </div>
+
+      <!-- ── 2. DATI AZIENDALI ── -->
+      <div class="section-title">Dati aziendali</div>
+      <div class="grid-2">
+        <div class="field col-full">
+          <label for="ragione_sociale">Ragione sociale <span class="req">*</span></label>
+          <input type="text" id="ragione_sociale" name="ragione_sociale" placeholder="Denominazione impresa" required>
+        </div>
+        <div class="field">
+          <label for="codice_ceiv">Codice iscrizione CEIV <span class="req">*</span></label>
+          <input type="text" id="codice_ceiv" name="codice_ceiv" placeholder="es. PD-000000" required>
+        </div>
+        <div class="field">
+          <label for="piva_cf">Partita IVA / Codice fiscale impresa <span class="req">*</span></label>
+          <input type="text" id="piva_cf" name="piva_cf" placeholder="es. 01234567890" required>
+        </div>
+        <div class="field">
+          <label for="num_lavoratori">N. lavoratori dipendenti <span class="req">*</span></label>
+          <input type="text" id="num_lavoratori" name="num_lavoratori" placeholder="es. 8" required>
+        </div>
+        <div class="field">
+          <label for="ccnl">Tipologia CCNL applicato <span class="req">*</span></label>
+          <select id="ccnl" name="ccnl" required>
+            <option value="">— seleziona —</option>
+            <option>CCNL Edilizia – Industria</option>
+            <option>CCNL Edilizia – Artigianato</option>
+            <option>CCNL Edilizia – Cooperative</option>
+            <option>CCNL Edilizia – PMI</option>
+            <option>Altro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="telefono">Telefono</label>
+          <input type="tel" id="telefono" name="telefono" placeholder="049 000000">
+        </div>
+        <div class="field">
+          <label for="cellulare">Cellulare <span class="req">*</span></label>
+          <input type="tel" id="cellulare" name="cellulare" placeholder="333 0000000" required>
+        </div>
+        <div class="field col-full">
+          <label for="email">E-mail <span class="req">*</span></label>
+          <input type="email" id="email" name="email" placeholder="info@impresa.it" required>
+        </div>
+      </div>
+
+      <!-- ── 3. SEDE LEGALE ── -->
+      <div class="section-title">Sede legale</div>
+      <div class="grid-2">
+        <div class="field col-full">
+          <label for="indirizzo_legale">Indirizzo sede legale <span class="req">*</span></label>
+          <input type="text" id="indirizzo_legale" name="indirizzo_legale" placeholder="Via / Piazza, numero civico" required>
+        </div>
+        <div class="field">
+          <label for="comune_legale">Comune sede legale <span class="req">*</span></label>
+          <select id="comune_legale" name="comune_legale" required>
+            <option value="">— seleziona comune —</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- ── 4. SEDE AMMINISTRATIVA ── -->
+      <div class="section-title">Sede amministrativa</div>
+      <div class="grid-2">
+        <div class="field col-full">
+          <label for="indirizzo_amm">Indirizzo sede amministrativa <small style="font-weight:400">(se diversa dalla sede legale)</small></label>
+          <input type="text" id="indirizzo_amm" name="indirizzo_amm" placeholder="Via / Piazza, numero civico">
+        </div>
+        <div class="field">
+          <label for="comune_amm">Comune sede amministrativa</label>
+          <select id="comune_amm" name="comune_amm">
+            <option value="">— seleziona comune —</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- ── 5. RAPPRESENTANTE LEGALE ── -->
+      <div class="section-title">Rappresentante legale</div>
+      <div class="grid-3">
+        <div class="field">
+          <label for="rl_nome">Nome <span class="req">*</span></label>
+          <input type="text" id="rl_nome" name="rl_nome" placeholder="Nome" required>
+        </div>
+        <div class="field">
+          <label for="rl_cognome">Cognome <span class="req">*</span></label>
+          <input type="text" id="rl_cognome" name="rl_cognome" placeholder="Cognome" required>
+        </div>
+        <div class="field">
+          <label for="rl_cf">Codice fiscale <span class="req">*</span></label>
+          <input type="text" id="rl_cf" name="rl_cf" placeholder="RSSMRA80A01L781V"
+                 maxlength="16" style="text-transform:uppercase" required>
+        </div>
+      </div>
+
+      <!-- ── 6. RSPP ── -->
+      <div class="section-title">RSPP</div>
+      <div class="grid-2">
+        <div class="field">
+          <label for="rspp_nome">Nominativo RSPP <span class="req">*</span></label>
+          <input type="text" id="rspp_nome" name="rspp_nome" placeholder="Nome Cognome" required>
+        </div>
+        <div class="field">
+          <label for="rspp_ruolo">Ruolo RSPP <span class="req">*</span></label>
+          <select id="rspp_ruolo" name="rspp_ruolo" required>
+            <option value="">— seleziona —</option>
+            <option value="È il datore di lavoro">È il datore di lavoro</option>
+            <option value="È un dipendente dell'impresa">È un dipendente dell'impresa</option>
+            <option value="È un soggetto esterno all'impresa">È un soggetto esterno all'impresa</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- ── 7. VERBALE NON ELEZIONE RLS ── -->
+      <div class="section-title">Verbale di non elezione RLS</div>
+      <div class="verbale-box">
+        <div class="grid-2">
+          <div class="field">
+            <label for="data_verbale">Data del verbale <span class="req">*</span></label>
+            <input type="date" id="data_verbale" name="data_verbale" required>
+          </div>
+          <div class="field">
+            <label for="luogo_riunione">Luogo in cui si è svolta la riunione <span class="req">*</span></label>
+            <input type="text" id="luogo_riunione" name="luogo_riunione"
+                   placeholder="es. sede legale dell'impresa" required>
+          </div>
+          <div class="field col-full">
+            <label>Carica il verbale (PDF) <span class="req">*</span></label>
+            <div class="file-area" id="fileArea">
+              <input type="file" id="fileVerbale" name="file_verbale" accept=".pdf" required
+                     onchange="handleFile(this)">
+              <span class="fi-icon">📄</span>
+              <div class="fi-text">Trascina il file qui oppure <strong>clicca per sfogliare</strong></div>
+              <div class="fi-sub">Solo file PDF · dimensione massima 5 MB</div>
+              <div class="file-name" id="fileName"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── 8. NOTE ── -->
+      <div class="section-title">Note</div>
+      <div class="field">
+        <textarea id="note" name="note" placeholder="Eventuali note o informazioni aggiuntive..."></textarea>
+      </div>
+
+      <!-- ── PRIVACY ── -->
+      <div class="privacy-box">
+        <input type="checkbox" id="privacy" name="privacy" required>
+        <p>
+          <strong>Informativa privacy – D.Lgs. 196/2003 e GDPR (Reg. UE 2016/679)</strong><br>
+          Con l'invio del presente modulo autorizzo il trattamento dei dati personali come previsto dal
+          Decreto Legislativo n. 196 del 30/06/2003 e successive modificazioni. I dati forniti saranno
+          utilizzati esclusivamente per la gestione del servizio RLST da parte di Formedil Padova –
+          Area Sicurezza e Salute.<br>
+          L'informativa completa è consultabile sul sito
+          <a href="https://www.formedilpadova.it" target="_blank">www.formedilpadova.it</a>.
+        </p>
+      </div>
+
+      <!-- ── BOTTONI ── -->
+      <div class="btn-row">
+        <button type="button" class="btn-reset" onclick="resetForm()">Cancella</button>
+        <button type="submit" class="btn-send" id="btnSend" disabled>Invia richiesta</button>
+      </div>
+
+      <div class="error-banner" id="errorBanner">
+        Si è verificato un errore durante l'invio. Riprova tra qualche istante o contatta
+        <a href="mailto:cpt@formedilpadova.it">cpt@formedilpadova.it</a>.
+      </div>
+
+      <div class="success-banner" id="successBanner">
+        <h2>✓ Richiesta inviata con successo</h2>
+        <p>
+          Formedil Padova – Area Sicurezza e Salute ha ricevuto la vostra domanda di affidamento al
+          servizio RLST.<br>
+          Riceverete a breve una e-mail di conferma all'indirizzo indicato. Sarete poi contattati
+          dal nostro ufficio per le pratiche successive.
+        </p>
+      </div>
+
+    </form>
+
+    <div class="footer">
+      <a href="https://www.formedilpadova.it" target="_blank">www.formedilpadova.it</a>
+      &nbsp;·&nbsp; Formedil Padova – Scuola Costruzioni Giuseppe Jappelli
+      &nbsp;·&nbsp; Area Sicurezza e Salute
+    </div>
+
+  </div><!-- /card -->
+</div><!-- /container -->
+
+<script>
+// ── COMUNI PROVINCIA DI PADOVA ──────────────────────────────────────────────
+const COMUNI = [
+  "ABANO TERME","AGNA","ALBIGNASEGO","ANGUILLARA VENETA","ARQUA' PETRARCA","ARRE",
+  "ARZERGRANDE","BAGNOLI DI SOPRA","BAONE","BARBONA","BATTAGLIA TERME","BOARA PISANI",
+  "BORGO VENETO","BORGORICCO","BOVOLENTA","BRUGINE","CADONEGHE","CAMPO SAN MARTINO",
+  "CAMPODARSEGO","CAMPODORO","CAMPOSAMPIERO","CANDIANA","CARCERI","CARMIGNANO DI BRENTA",
+  "CARRARA SAN GIORGIO","CARRARA SANTO STEFANO","CARTURA","CASALE DI SCODOSIA",
+  "CASALSERUGO","CASTELBALDO","CERVARESE SANTA CROCE","CINTO EUGANEO","CITTADELLA",
+  "CODEVIGO","CONSELVE","CORREZZOLA","CURTAROLO","DUE CARRARE","ESTE","FONTANIVA",
+  "GALLIERA VENETA","GALZIGNANO TERME","GAZZO PADOVANO","GRANTORTO","GRANZE","LEGNARO",
+  "LIMENA","LOREGGIA","LOZZO ATESTINO","MASERA' DI PADOVA","MASI","MASSANZAGO",
+  "MEGLIADINO SAN FIDENZIO","MEGLIADINO SAN VITALE","MERLARA","MESTRINO","MONSELICE",
+  "MONTAGNANA","MONTEGROTTO TERME","NOVENTA PADOVANA","OSPEDALETTO EUGANEO",
+  "PADOVA - Q1 (Centro storico)",
+  "PADOVA - Q2 NORD (Arcella - S. Carlo – Pontevigodarzere)",
+  "PADOVA - Q3 EST (Brenta - Venezia, Forcellini - Camin)",
+  "PADOVA - Q4 SUD EST (S. Croce-S. Osvaldo, Bassanello – Voltabarozzo)",
+  "PADOVA - Q5 SUD OVEST (Armistizio – Savonarola)",
+  "PADOVA - Q6 OVEST (Brentella – Valsugana)",
+  "PERNUMIA","PIACENZA D'ADIGE","PIAZZOLA SUL BRENTA","PIOMBINO DESE","PIOVE DI SACCO",
+  "POLVERARA","PONSO","PONTE SAN NICOLO'","PONTELONGO","POZZONOVO","ROVOLON","RUBANO",
+  "SACCOLONGO","SALETTO","SAN GIORGIO DELLE PERTICHE","SAN GIORGIO IN BOSCO",
+  "SAN MARTINO DI LUPARI","SAN PIETRO IN GU","SAN PIETRO VIMINARIO",
+  "SANT'ANGELO DI PIOVE DI SACCO","SANT'ELENA","SANT'URBANO","SANTA GIUSTINA IN COLLE",
+  "SANTA MARGHERITA D'ADIGE","SAONARA","SELVAZZANO DENTRO","SOLESINO","STANGHELLA",
+  "TEOLO","TERRASSA PADOVANA","TOMBOLO","TORREGLIA","TREBASELEGHE","TRIBANO","URBANA",
+  "VEGGIANO","VESCOVANA","VIGHIZZOLO D'ESTE","VIGODARZERE","VIGONZA","VILLA DEL CONTE",
+  "VILLA ESTENSE","VILLAFRANCA PADOVANA","VILLANOVA DI CAMPOSAMPIERO","VO'"
+];
+
+function fillSelect(sel) {
+  COMUNI.forEach(c => {
+    const o = document.createElement('option');
+    o.value = c; o.textContent = c;
+    sel.appendChild(o);
+  });
+}
+fillSelect(document.getElementById('comune_legale'));
+fillSelect(document.getElementById('comune_amm'));
+
+// ── DATA ODIERNA ──────────────────────────────────────────────────────────────
+document.getElementById('data_compilazione').valueAsDate = new Date();
+
+// ── PROGRESS ─────────────────────────────────────────────────────────────────
+const form      = document.getElementById('rlstForm');
+const btnSend   = document.getElementById('btnSend');
+const progFill  = document.getElementById('progFill');
+const progLabel = document.getElementById('progLabel');
+const reqFields = form.querySelectorAll('[required]');
+
+function calcProgress() {
+  let n = 0;
+  reqFields.forEach(el => {
+    if (el.type === 'checkbox') { if (el.checked) n++; }
+    else if (el.type === 'file') { if (el.files && el.files.length) n++; }
+    else if (el.value.trim()) n++;
+  });
+  const pct = Math.round(n / reqFields.length * 100);
+  progFill.style.width = pct + '%';
+  progLabel.textContent = 'Compilazione: ' + pct + '%';
+  btnSend.disabled = !document.getElementById('privacy').checked;
+}
+
+form.addEventListener('input',  calcProgress);
+form.addEventListener('change', calcProgress);
+
+// ── FILE UPLOAD ───────────────────────────────────────────────────────────────
+function handleFile(input) {
+  const fn   = document.getElementById('fileName');
+  const area = document.getElementById('fileArea');
+  fn.className = 'file-name';
+
+  if (!input.files || !input.files[0]) { fn.style.display='none'; return; }
+  const f = input.files[0];
+
+  if (f.type !== 'application/pdf') {
+    fn.textContent = '✗ Formato non valido. Caricare un file PDF.';
+    fn.classList.add('err-msg'); fn.style.display = 'block';
+    input.value = ''; area.style.borderColor = '#e24b4a';
+  } else if (f.size > 5 * 1024 * 1024) {
+    fn.textContent = '✗ File troppo grande. Dimensione massima: 5 MB.';
+    fn.classList.add('err-msg'); fn.style.display = 'block';
+    input.value = ''; area.style.borderColor = '#e24b4a';
+  } else {
+    fn.textContent = '✓ ' + f.name + ' (' + (f.size/1024).toFixed(0) + ' KB)';
+    fn.classList.add('ok'); fn.style.display = 'block';
+    area.style.borderColor = '#95C22F';
+  }
+  calcProgress();
+}
+
+// ── SUBMIT ────────────────────────────────────────────────────────────────────
+// ⚠️  Sostituire GAS_URL con l'URL del Web App Google Apps Script dopo il deploy
+const GAS_URL = 'https://script.google.com/macros/s/INSERISCI_QUI_URL_WEBAPP/exec';
+
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+
+  // Validazione
+  let ok = true;
+  reqFields.forEach(el => {
+    el.classList.remove('err');
+    if (el.type === 'checkbox') {
+      /* già gestito da disabled del btn */
+    } else if (el.type === 'file') {
+      if (!el.files || !el.files.length) {
+        document.getElementById('fileArea').style.borderColor = '#e24b4a';
+        ok = false;
+      }
+    } else if (!el.value.trim()) {
+      el.classList.add('err'); ok = false;
+    }
+  });
+
+  if (!ok) {
+    const first = form.querySelector('.err');
+    if (first) first.scrollIntoView({ behavior:'smooth', block:'center' });
+    return;
+  }
+
+  // Spinner
+  btnSend.disabled = true;
+  btnSend.innerHTML = '<span class="spinner"></span>Invio in corso...';
+  document.getElementById('errorBanner').style.display = 'none';
+
+  // Leggi PDF come base64
+  let pdfBase64 = '';
+  let pdfName   = '';
+  const fileInput = document.getElementById('fileVerbale');
+  if (fileInput.files && fileInput.files[0]) {
+    pdfName = fileInput.files[0].name;
+    pdfBase64 = await new Promise((res, rej) => {
+      const r = new FileReader();
+      r.onload  = () => res(r.result.split(',')[1]);
+      r.onerror = rej;
+      r.readAsDataURL(fileInput.files[0]);
+    });
+  }
+
+  // Payload
+  const payload = {
+    data_compilazione:  document.getElementById('data_compilazione').value,
+    ragione_sociale:    document.getElementById('ragione_sociale').value.trim(),
+    codice_ceiv:        document.getElementById('codice_ceiv').value.trim(),
+    piva_cf:            document.getElementById('piva_cf').value.trim(),
+    num_lavoratori:     document.getElementById('num_lavoratori').value.trim(),
+    ccnl:               document.getElementById('ccnl').value,
+    telefono:           document.getElementById('telefono').value.trim(),
+    cellulare:          document.getElementById('cellulare').value.trim(),
+    email:              document.getElementById('email').value.trim(),
+    indirizzo_legale:   document.getElementById('indirizzo_legale').value.trim(),
+    comune_legale:      document.getElementById('comune_legale').value,
+    indirizzo_amm:      document.getElementById('indirizzo_amm').value.trim(),
+    comune_amm:         document.getElementById('comune_amm').value,
+    rl_nome:            document.getElementById('rl_nome').value.trim(),
+    rl_cognome:         document.getElementById('rl_cognome').value.trim(),
+    rl_cf:              document.getElementById('rl_cf').value.trim().toUpperCase(),
+    rspp_nome:          document.getElementById('rspp_nome').value.trim(),
+    rspp_ruolo:         document.getElementById('rspp_ruolo').value,
+    data_verbale:       document.getElementById('data_verbale').value,
+    luogo_riunione:     document.getElementById('luogo_riunione').value.trim(),
+    note:               document.getElementById('note').value.trim(),
+    privacy:            'Sì – autorizzo il trattamento dei dati personali',
+    pdf_base64:         pdfBase64,
+    pdf_nome:           pdfName
+  };
+
+  try {
+    const resp = await fetch(GAS_URL, {
+      method: 'POST',
+      body:   JSON.stringify(payload)
+    });
+    const data = await resp.json();
+
+    if (data.status === 'ok') {
+      document.getElementById('successBanner').style.display = 'block';
+      btnSend.textContent = 'Inviata ✓';
+      progFill.style.width = '100%';
+      progLabel.textContent = 'Compilazione: 100%';
+      document.getElementById('successBanner').scrollIntoView({ behavior:'smooth' });
+    } else {
+      throw new Error(data.message || 'Errore sconosciuto');
+    }
+  } catch (err) {
+    console.error(err);
+    document.getElementById('errorBanner').style.display = 'block';
+    btnSend.disabled = false;
+    btnSend.textContent = 'Invia richiesta';
+  }
+});
+
+// ── RESET ─────────────────────────────────────────────────────────────────────
+function resetForm() {
+  form.reset();
+  document.getElementById('data_compilazione').valueAsDate = new Date();
+  document.getElementById('successBanner').style.display = 'none';
+  document.getElementById('errorBanner').style.display   = 'none';
+  document.getElementById('fileName').style.display      = 'none';
+  document.getElementById('fileArea').style.borderColor  = '';
+  btnSend.disabled     = true;
+  btnSend.textContent  = 'Invia richiesta';
+  progFill.style.width = '0%';
+  progLabel.textContent = 'Compilazione: 0%';
+  form.querySelectorAll('.err').forEach(el => el.classList.remove('err'));
+}
+
+calcProgress();
+</script>
+</body>
+</html>
