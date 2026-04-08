@@ -274,7 +274,7 @@
           <input type="text" id="codice_ceiv" name="codice_ceiv" placeholder="es. PD-000000" required>
         </div>
         <div class="field">
-          <label for="piva">Partita IVA / Codice fiscale impresa <span class="req">*</span></label>
+          <label for="piva">Partita IVA impresa <span class="req">*</span></label>
           <input type="text" id="piva" name="piva" placeholder="es. 01234567890" required>
         </div>
         <div class="field">
@@ -596,7 +596,7 @@ form.addEventListener('submit', async e => {
     data_compilazione:  document.getElementById('data_compilazione').value,
     ragione_sociale:    document.getElementById('ragione_sociale').value.trim(),
     codice_ceiv:        document.getElementById('codice_ceiv').value.trim(),
-    piva_cf:            document.getElementById('piva_cf').value.trim(),
+    piva:               document.getElementById('piva').value.trim(),
     num_lavoratori:     document.getElementById('num_lavoratori').value.trim(),
     ccnl:               document.getElementById('ccnl').value,
     telefono:           document.getElementById('telefono').value.trim(),
